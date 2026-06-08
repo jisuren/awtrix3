@@ -597,7 +597,10 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
 
     if (textWidth > availableWidth && !(state->appState == IN_TRANSITION))
     {
-        if (ca->scrollposition + ca->textOffset <= (-textWidth))
+        // For repeat:-1, reset when last char reaches left edge (seamless loop)
+        // For other repeat values, reset when text is fully off-screen
+        int resetThreshold = (ca->repeat == -1) ? -(textWidth - 32) : -textWidth;
+        if (ca->scrollposition + ca->textOffset <= resetThreshold)
         {
             if (ca->iconWasPushed && ca->pushIcon == 2)
             {
