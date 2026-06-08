@@ -586,6 +586,10 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
     {
         DisplayManager.setAutoTransition(false);
     }
+    else if (ca->repeat == -1 && textWidth > availableWidth)
+    {
+        DisplayManager.setAutoTransition(false);
+    }
     else
     {
         DisplayManager.setAutoTransition(true);
@@ -613,7 +617,7 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
                 ++ca->currentRepeat;
             }
             ca->scrollDelay = 0;
-            ca->scrollposition = 9 + ca->textOffset;
+            ca->scrollposition = 32;
         }
     }
     if (!noScrolling)
