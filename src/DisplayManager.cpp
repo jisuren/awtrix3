@@ -732,7 +732,7 @@ bool DisplayManager_::generateCustomPage(const String &name, JsonObject doc, boo
 
   if (currentCustomApp != name)
   {
-    customApp.scrollposition = 9 + customApp.textOffset;
+    customApp.scrollposition = customApp.textOffset;
   }
 
   customApp.repeat = doc.containsKey("repeat") ? doc["repeat"].as<int>() : -1;

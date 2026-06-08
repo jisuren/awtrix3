@@ -620,12 +620,27 @@ void ShowCustomApp(String name, FastLED_NeoMatrix *matrix, MatrixDisplayUiState 
                 ++ca->currentRepeat;
             }
             ca->scrollDelay = 0;
-            ca->scrollposition = 32;
+            ca->scrollposition = 0;
         }
     }
     if (!noScrolling)
     {
-        if ((ca->scrollDelay > MATRIX_FPS) || ((hasIcon ? ca->textOffset + 9 : ca->textOffset) > 31))
+        if (ca->repeat == -1)
+        {
+            // Seamless loop: no delay, continuous scroll like boot animation
+            if (state->appState == FIXED && !ca->noScrolling)
+            {
+                if (ca->scrollSpeed == -1)
+                {
+                    ca->scrollposition -= movementFactor * ((float)SCROLL_SPEED / 100);
+                }
+                else
+                {
+                    ca->scrollposition -= movementFactor * (ca->scrollSpeed / 100);
+                }
+            }
+        }
+        else if ((ca->scrollDelay > MATRIX_FPS) || ((hasIcon ? ca->textOffset + 9 : ca->textOffset) > 31))
         {
             if (state->appState == FIXED && !ca->noScrolling)
             {
