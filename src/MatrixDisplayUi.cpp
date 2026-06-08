@@ -33,6 +33,7 @@
 
 GifPlayer gif1;
 GifPlayer gif2;
+extern uint8_t currentTransition;
 
 MatrixDisplayUi::MatrixDisplayUi(FastLED_NeoMatrix *matrix)
 {
@@ -207,7 +208,7 @@ void MatrixDisplayUi::tick()
     switch (this->state.appState)
     {
     case IN_TRANSITION:
-      if (this->state.ticksSinceLastStateSwitch >= this->ticksPerTransition)
+      if (currentTransition == INSTANT || this->state.ticksSinceLastStateSwitch >= this->ticksPerTransition)
       {
         this->state.appState = FIXED;
         this->state.currentApp = getnextAppNumber();
